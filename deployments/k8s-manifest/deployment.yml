@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-repositories
+spec:
+  selector:
+    matchLabels:
+      app: git-repositories
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: git-repositories
+    spec:
+      containers:
+        - name: git-repositories
+          image: git-repositories:v1
+          # Image that will be used to containers in the cluster
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+          env:
+            - name: ACTIVE_SPRING_PROFILE
+              value: prod
+            - name: GIT_REPO_BASE_URL
+              value: https://api.github.com/
